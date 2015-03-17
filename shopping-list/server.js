@@ -21,7 +21,65 @@ var server = http.createServer(function (req, res) {
         });
         res.end();
         break;
+    case 'DELETE':
+        var pathname = url.parse(req.url).pathname;
+        var i = parseInt(pathname.slice(1), 10);
+    
+        if (isNaN(i)) {
+            res.statusCode = 400;
+            res.end('Item id not valid');
+        }
+        else if (!items[i]) {
+            res.statusCode = 404;
+            res.end('Item not found');
+        }
+        else {
+            items.splice(i, 1);
+            res.end('Item deleted successfully');
+        }
+        break;
+    case 'PUT':
+        
+        var pathname = url.parse(req.url).pathname;
+        var i = parseInt(pathname.slice(1), 10);
+    
+        if (isNaN(i)) {
+            res.statusCode = 400;
+            res.end('Item id not valid');
+        }
+        else if (!items[i]) {
+            res.statusCode = 404;
+            res.end('Item not found');
+        }
+        else {
+            req.setEncoding('utf8');
+            req.on('data', function (chunk) {
+                items.splice(i,1,chunk);
+                res.end('Item modified\n');
+            });
+        }
+        break;
     }
+    
+    function getIndex(){
+        var pathname = url.parse(req.url).pathname;
+        var i = parseInt(pathname.slice(1), 10);
+        if (isNaN(i)) {
+            res.statusCode = 400;
+            res.end('Item id not valid');
+            return false;
+        }
+        else if (!items[i]) {
+            res.statusCode = 404;
+            res.end('Item not found');
+            return false;
+        }
+        else{
+            return i;
+        }
+    }
+
+    
 });
 
 server.listen(9000, function(){
