@@ -10,7 +10,7 @@ var expressHbs = require('express-handlebars');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.engine('hbs', expressHbs({extname: 'hbs', defaultLayout: 'layouts/main.hbs'}));
+app.engine('hbs', expressHbs({extname: 'hbs', defaultLayout: 'main.hbs'}));
 app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
